@@ -40,4 +40,4 @@
 *.dwo
 
 build/
-.c*
+.claude/

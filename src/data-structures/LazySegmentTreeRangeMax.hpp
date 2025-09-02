@@ -81,17 +81,17 @@ private:
             return;
         } 
         int mid = (start + end) / 2;
-        build(arr, 2 * node, start, mid);
-        build(arr, 2 * node + 1, mid + 1, end);
-        tree[node] = combine_func(tree[2 * node], tree[2 * node + 1]);
+        build(arr, (node << 1), start, mid);
+        build(arr, (node << 1) | 1, mid + 1, end);
+        tree[node] = combine_func(tree[(node << 1)], tree[(node << 1) | 1]);
     }
     
-    void apply_add(int node, int start, int end, T val) {
+    void apply_add(int node, T val) {
         tree[node] += val;
         lazy[node].apply_add(val);
     }
 
-    void apply_set(int node, int start, int end, T val) {
+    void apply_set(int node, T val) {
         tree[node] = val;
         lazy[node].apply_set(val);
     }
@@ -102,12 +102,12 @@ private:
 
         int mid = (start + end) / 2;
         if (lazy[node].has_set) {
-            apply_set(2 * node, start, mid, lazy[node].set_val);
-            apply_set(2 * node + 1, mid + 1, end, lazy[node].set_val);
+            apply_set((node << 1), lazy[node].set_val);
+            apply_set((node << 1) | 1, lazy[node].set_val);
         }
         else {
-            apply_add(2 * node, start, mid, lazy[node].add_val);
-            apply_add(2 * node + 1, mid + 1, end, lazy[node].add_val);
+            apply_add((node << 1), lazy[node].add_val);
+            apply_add((node << 1) | 1, lazy[node].add_val);
         }
         
         lazy[node].clear();
@@ -119,17 +119,17 @@ private:
         
         if (start >= l && end <= r) {
             if (is_set)
-                apply_set(node, start, end, val);
+                apply_set(node, val);
             else 
-                apply_add(node, start, end, val);
+                apply_add(node, val);
             return;
         }
         
         int mid = (start + end) / 2;
         push(node, start, end);
-        update_range(2 * node, start, mid, l, r, val, is_set);
-        update_range(2 * node + 1, mid + 1, end, l, r, val, is_set);        
-        tree[node] = combine_func(tree[2 * node], tree[2 * node + 1]);
+        update_range((node << 1), start, mid, l, r, val, is_set);
+        update_range((node << 1) | 1, mid + 1, end, l, r, val, is_set);        
+        tree[node] = combine_func(tree[(node << 1)], tree[(node << 1) | 1]);
     }
     
     T query_range(int node, int start, int end, int l, int r) {
@@ -141,7 +141,7 @@ private:
         
         push(node, start, end);
         int mid = (start + end) / 2;
-        return combine_func(query_range(2 * node, start, mid, l, r), query_range(2 * node + 1, mid + 1, end, l, r));
+        return combine_func(query_range((node << 1), start, mid, l, r), query_range((node << 1) | 1, mid + 1, end, l, r));
     }
     
 public:
@@ -189,15 +189,3 @@ public:
         return query_range(1, 0, n - 1, l, r);
     }
 };
-
-// Convenient type aliases for common use cases
-template<typename T>
-using LazyRangeMaxTree = LazyRangeMax<T, std::function<T(T, T)>>;
-
-template<typename T>
-using LazyRangeMinTree = LazyRangeMax<T, std::function<T(T, T)>>;
-
-// Specific instantiations for max operations
-using IntLazyRangeMax = LazyRangeMax<int, std::function<int(int, int)>>;
-using LongLazyRangeMax = LazyRangeMax<long long, std::function<long long(long long, long long)>>;
-using DoubleLazyRangeMax = LazyRangeMax<double, std::function<double(double, double)>>;

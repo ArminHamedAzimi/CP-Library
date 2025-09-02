@@ -163,7 +163,7 @@ public:
     // Build from array (can be called after default construction)
     template<typename U>
     void build(const vector <U> &arr) {
-        assert(arr.size() == n);
+        assert(int(arr.size()) == n);
         vector <T> converted_arr(arr.begin(), arr.end());
         build(converted_arr, 1, 0, n - 1);
     }

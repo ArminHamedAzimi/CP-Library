@@ -96,11 +96,10 @@ private:
         lazy[node].apply_set(val);
     }
 
-    void push(int node, int start, int end) {
+    void push(int node) {
         if (lazy[node].is_empty())
             return;
 
-        int mid = (start + end) / 2;
         if (lazy[node].has_set) {
             apply_set((node << 1), lazy[node].set_val);
             apply_set((node << 1) | 1, lazy[node].set_val);
@@ -126,7 +125,7 @@ private:
         }
         
         int mid = (start + end) / 2;
-        push(node, start, end);
+        push(node);
         update_range((node << 1), start, mid, l, r, val, is_set);
         update_range((node << 1) | 1, mid + 1, end, l, r, val, is_set);        
         tree[node] = combine_func(tree[(node << 1)], tree[(node << 1) | 1]);
@@ -139,7 +138,7 @@ private:
         if (start >= l && end <= r)
             return tree[node];
         
-        push(node, start, end);
+        push(node);
         int mid = (start + end) / 2;
         return combine_func(query_range((node << 1), start, mid, l, r), query_range((node << 1) | 1, mid + 1, end, l, r));
     }
@@ -166,7 +165,7 @@ public:
     // Build from array (can be called after default construction)
     template<typename U>
     void build(const vector <U> &arr) {
-        assert(arr.size() == n);
+        assert(int(arr.size()) == n);
         vector <T> converted_arr(arr.begin(), arr.end());
         build(converted_arr, 1, 0, n - 1);
     }

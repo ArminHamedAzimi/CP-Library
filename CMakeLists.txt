@@ -35,7 +35,7 @@ foreach(test_file ${ALL_TEST_SOURCES})
     message(STATUS "Created test: ${full_test_name}")
 endforeach()
 
-file(GLOB_RECURSE CSES_MAIN_FILES "test/**/cses[0-9]*/main.cpp")
+file(GLOB_RECURSE CSES_MAIN_FILES "test/**/cses[0-9]**/main.cpp")
 
 foreach(cses_main ${CSES_MAIN_FILES})
     get_filename_component(cses_dir ${cses_main} DIRECTORY)

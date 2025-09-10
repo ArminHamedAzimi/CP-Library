@@ -34,10 +34,13 @@
 
 # Executables
 *.exe
-*.out
 *.app
 
 # debug information files
 *.dwo
 
 build/
+.claude/
+CLAUDE.md
+AGENTS.md
+.vscode

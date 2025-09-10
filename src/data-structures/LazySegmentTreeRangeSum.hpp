@@ -72,9 +72,9 @@ private:
             tree[node] = arr[start];
         } else {
             int mid = (start + end) / 2;
-            build(arr, 2 * node, start, mid);
-            build(arr, 2 * node + 1, mid + 1, end);
-            tree[node] = tree[2 * node] + tree[2 * node + 1];
+            build(arr, (node << 1), start, mid);
+            build(arr, (node << 1) | 1, mid + 1, end);
+            tree[node] = tree[(node << 1)] + tree[(node << 1) | 1];
         }
     }
     
@@ -96,12 +96,12 @@ private:
 
         int mid = (start + end) / 2;
         if (lazy[node].has_set) {
-            apply_set(2 * node, start, mid, lazy[node].set_val);
-            apply_set(2 * node + 1, mid + 1, end, lazy[node].set_val);
+            apply_set((node << 1), start, mid, lazy[node].set_val);
+            apply_set((node << 1) | 1, mid + 1, end, lazy[node].set_val);
         }
         else {
-            apply_add(2 * node, start, mid, lazy[node].add_val);
-            apply_add(2 * node + 1, mid + 1, end, lazy[node].add_val);
+            apply_add((node << 1), start, mid, lazy[node].add_val);
+            apply_add((node << 1) | 1, mid + 1, end, lazy[node].add_val);
         }
         
         lazy[node].clear();
@@ -121,9 +121,9 @@ private:
         
         int mid = (start + end) / 2;
         push(node, start, end);
-        update_range(2 * node, start, mid, l, r, val, is_set);
-        update_range(2 * node + 1, mid + 1, end, l, r, val, is_set);        
-        tree[node] = tree[2 * node] + tree[2 * node + 1];
+        update_range((node << 1), start, mid, l, r, val, is_set);
+        update_range((node << 1) | 1, mid + 1, end, l, r, val, is_set);        
+        tree[node] = tree[(node << 1)] + tree[(node << 1) | 1];
     }
     
     T query_range(int node, int start, int end, int l, int r) {
@@ -135,7 +135,7 @@ private:
         
         push(node, start, end);
         int mid = (start + end) / 2;
-        return query_range(2 * node, start, mid, l, r) + query_range(2 * node + 1, mid + 1, end, l, r);
+        return query_range((node << 1), start, mid, l, r) + query_range((node << 1) | 1, mid + 1, end, l, r);
     }
     
 public:
@@ -163,7 +163,7 @@ public:
     // Build from array (can be called after default construction)
     template<typename U>
     void build(const vector <U> &arr) {
-        assert(arr.size() == n);
+        assert(int(arr.size()) == n);
         vector <T> converted_arr(arr.begin(), arr.end());
         build(converted_arr, 1, 0, n - 1);
     }

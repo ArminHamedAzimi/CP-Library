@@ -1,26 +1,31 @@
 /**
- * Treap (Cartesian tree) — randomized balanced BST.
- * This file implements an implicit treap (ordered by position) with subtree size.
+ * Author: ArminHamedAzimi
+ * Description: Treap (Cartesian tree) — randomized balanced BST
+ * ordered by position with subtree size maintenance.
  *
- * Operations provided here:
- * - merge(l, r): combine two treaps (all elements of l come before r)
- * - split(x, cnt): split first cnt elements into {left, right}
- * - pull(): recompute aggregates (currently only size)
- * - push(): placeholder for lazy propagation (extend as needed)
+ * Features:
+ * - merge(l, r): combine two treaps; all elements of `l` come before `r`.
+ * - split(x, cnt): split first `cnt` elements into `{left, right}`.
+ * - pull(): recompute aggregates for a node (currently only size).
+ * - push(): placeholder for lazy propagation (extend as needed).
  *
- * Complexity: expected O(log n) per operation; space O(n).
+ * Time: Expected O(log n) per operation
+ * Space: O(n)
  *
- * Usage example:
- *   node* root = nullptr;
- *   // insert at position pos
- *   auto [L, R] = split(root, pos);
- *   root = merge(merge(L, new node()), R);
- *   // erase at position pos
- *   auto [A, B] = split(root, pos);
- *   auto [M, C] = split(B, 1);
- *   // delete M;
- *   root = merge(A, C);
+ * Usage:
+ *  node* root = nullptr;
+ *  // insert at position pos
+ *  auto [L, R] = split(root, pos);
+ *  root = merge(merge(L, new node()), R);
+ *
+ *  // erase at position pos
+ *  auto [A, B] = split(root, pos);
+ *  auto [M, C] = split(B, 1);
+ *  // delete M;
+ *  root = merge(A, C);
  */
+
+#pragma once
 #include <bits/stdc++.h>
 using namespace std;
 

@@ -126,7 +126,7 @@ struct MInt {
     }
 };
 
-const int P = 1000000007;
+const int P = ${1|1000000007, 998244353|};
 using Mint = MInt<P>;
 const int MAX_COM = 1e6 + 10;
 
@@ -149,3 +149,4 @@ Mint C(int r, int n) {
 
     return fac[n] * invfac[r] * invfac[n - r];
 }
+$0
